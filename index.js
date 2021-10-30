@@ -27,6 +27,7 @@ async function run() {
         console.log("Connected to Database...");
         
         const database = client.db('maldivesTour');
+        const stayCollection = database.collection('stay');
         const agentsCollection = database.collection('agents');
         const bookingCollection = database.collection('bookings');
         
@@ -101,6 +102,14 @@ async function run() {
         app.post('/agents', async (req, res) => {
             const agent = req.body;
             const result = await agentsCollection.insertOne(agent);
+            
+            res.json(result);
+        });
+        
+        // GET All Stay
+        app.get('/stay', async (req, res) => {
+            const cursor = stayCollection.find({});
+            const result = await cursor.toArray();
             
             res.json(result);
         });
